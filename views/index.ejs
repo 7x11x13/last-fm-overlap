@@ -7,10 +7,11 @@
     <title>Last.fm taste overlap</title>
   </head>
   <body>
-    <div class="container-sm mt-5">
+    <main class="container-sm mt-5">
       
       <h1>Last.fm taste overlap</h1>
-      <h6>Inspired by Jake Ledoux's <a href="https://jakeledoux.com/lastfm/" class="text-decoration-none">Last.fm Cross-reference Tool</a></h6>
+      <h6>Inspired by Jake Ledoux's <a href="https://jakeledoux.com/lastfm/" target="blank" class="text-decoration-none">Last.fm Cross-reference Tool</a></h6>
+      <h6>Source code on <a href="https://github.com/7x11x13/last-fm-overlap" target="blank" class="text-decoration-none">GitHub</a></h6>
       <form action="" method="post">
         <div class="form-group row g-2 mt-2">
           <div class="col-sm-3">
@@ -59,7 +60,7 @@
       <% if (typeof results != 'undefined' && results.length === 0) { %>
         <h1 class="mt-5">No overlap :(</h1>
       <% } %>
-    </div>
+      </main>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
   </body>
 </html>
