@@ -1,13 +1,12 @@
-const express = require('express');
-const router = express.Router();
-const fetch = require('node-fetch');
-const constants = require('../constants');
-
-/* GET home page. */
-router.get('/', function(req, res, next) {
-    res.render('index', {});
+const constants = Object.freeze({
+    API_URL: 'http://ws.audioscrobbler.com/2.0/',
+    VALID_USERNAME_REGEX: new RegExp('[\\w-]+'), // old usernames may contain other characters
+    TYPE_ARTIST: 'artist',
+    TYPE_ALBUM: 'album',
+    TYPE_TRACK: 'track',
+    LIMIT: 1000, // maximum 1000
+    API_KEY: '6e06d6eb3a8a25c7d5f485f92f81d172'
 });
-
 
 function get_api_url(params) {
     let url = `${constants.API_URL}?`;
@@ -22,7 +21,7 @@ function get_top(username, limit, method) {
     const url = get_api_url({
         method: method,
         user: username,
-        api_key: process.env.API_KEY,
+        api_key: constants.API_KEY,
         format: 'json',
         limit: limit
     });
@@ -107,7 +106,71 @@ function get_mutual_likes(data) {
     return ret.sort((a, b) => a.maxrank - b.maxrank);
 }
 
-router.post('/', function(req, res, next) {
+function generate_results_error(err) {
+    return '<div class="alert alert-danger mt-5">' + 
+                err +
+            '</div>';
+}
+
+function generate_results(results) {
+    if (typeof results != 'undefined' && results.length > 0) {
+        ret = '<table class="table mt-5">\
+                 <thead>\
+                   <th scope="col">Rank</th>\
+                   <th scope="col">Name</th>\
+                   <th scope="col">Combined playcount</th>\
+                   <th scope="col">Lowest rank</th>\
+                 </thead>\
+                 <tbody>';
+        for (let i = 0; i < results.length; ++i) {
+            ret += '<tr>';
+            ret += '<th scope="row">' + (i+1) + '</th>';
+            ret += '<td>' + results[i].name + '</td>';
+            ret += '<td>' + results[i].playcount + '</td>';
+            ret += '<td>' + results[i].maxrank + '</td>';
+            ret += '</tr>';
+        }
+        ret += '</tbody></table>';
+        return ret
+    } else {
+        return '<h1 class="mt-5">No overlap :(</h1>'
+    }
+}
+
+$('form').on('submit', () => {
+    const user1 = $('#user1').val();
+    const user2 = $('#user2').val();
+    const type = $('#type').val();
+
+    $('#results').empty();
+
+    if (!constants.VALID_USERNAME_REGEX.test(user1) || !constants.VALID_USERNAME_REGEX.test(user2)) {
+        $('#results').append(generate_results_error('Invalid username'));
+        return false;
+    }
+
+    $('#form-button').prop('disabled', true);
+
+    const users = [user1, user2];
+
+    Promise.all(
+        users.map(name => get_top_funcs[type](name, constants.LIMIT))
+    )
+    .then(values => {
+        let top_artists = values.map(convert_funcs[type]);
+        const mutual = get_mutual_likes(top_artists);
+        $('#results').append(generate_results(mutual));
+    })
+    .catch(err => {
+        $('#results').append(generate_results_error(err));
+    })
+    .finally(() => {
+        $('#form-button').prop('disabled', false);
+    });
+    return false;
+});
+
+/*router.post('/', function(req, res, next) {
     const user1 = req.body['user1'];
     const user2 = req.body['user2'];
     const type = req.body['type'];
@@ -130,6 +193,4 @@ router.post('/', function(req, res, next) {
         .catch(err => {
             res.render('index', {error: err});
         });
-});
-
-module.exports = router;
+});*/

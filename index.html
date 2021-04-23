@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+    <title>Last.fm taste overlap</title>
+  </head>
+  <body>
+    <main class="container-sm mt-5">
+      
+      <h1>Last.fm taste overlap</h1>
+      <h6>Inspired by <a href="https://jakeledoux.com/" target="blank" class="text-decoration-none">Jake Ledoux</a>'s Last.fm Cross-reference Tool</h6>
+      <h6>Source code on <a href="https://github.com/7x11x13/last-fm-overlap" target="blank" class="text-decoration-none">GitHub</a></h6>
+      <form>
+        <div class="form-group row g-2 mt-2">
+          <div class="col-sm-3">
+            <input type="text" class="form-control" id="user1" placeholder="First username">
+          </div>
+          <div class="col-sm-3">
+            <input type="text" class="form-control" id="user2" placeholder="Second username">
+          </div>
+          <div class="col-auto">
+            <select class="form-select" id="type">
+              <option value="artist">Favorite artists</option>
+              <option value="album">Favorite albums</option>
+              <option value="track">Favorite tracks</option>
+            </select>
+          </div>
+          <div class="col-auto">
+            <button class="btn btn-primary" type="submit" id="form-button">Check</button>
+          </div>
+        </div>
+      </form>
+      <div id="results"></div>
+    </main>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="./js/index.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+  </body>
+</html>
