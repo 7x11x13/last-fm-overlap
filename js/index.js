@@ -148,11 +148,10 @@ $('form').on('submit', () => {
         $('#results').append(generate_results_error('Invalid username'));
         return false;
     }
-
+    
     $('#form-button').prop('disabled', true);
 
     const users = [user1, user2];
-
     Promise.all(
         users.map(name => get_top_funcs[type](name, constants.LIMIT))
     )
@@ -169,28 +168,3 @@ $('form').on('submit', () => {
     });
     return false;
 });
-
-/*router.post('/', function(req, res, next) {
-    const user1 = req.body['user1'];
-    const user2 = req.body['user2'];
-    const type = req.body['type'];
-
-    if (!constants.VALID_USERNAME_REGEX.test(user1) || !constants.VALID_USERNAME_REGEX.test(user2)) {
-        res.render('index', {error: 'Invalid username'});
-        return;
-    }
-
-    const users = [user1, user2];
-
-    Promise.all(
-        users.map(name => get_top_funcs[type](name, constants.LIMIT))
-    )
-        .then(values => {
-            let top_artists = values.map(convert_funcs[type]);
-            const mutual = get_mutual_likes(top_artists);
-            res.render('index', {user1: user1, user2: user2, results: mutual});
-        })
-        .catch(err => {
-            res.render('index', {error: err});
-        });
-});*/
