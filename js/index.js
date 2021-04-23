@@ -98,8 +98,11 @@ function get_mutual_likes(data) {
         if (typeof obj2 != 'undefined') {
             ret.push({
                 name: obj1.name,
-                playcount: obj1.playcount + obj2.playcount,
-                maxrank: Math.max(obj1.rank, obj2.rank)
+                playcount1: obj1.playcount,
+                playcount2: obj2.playcount,
+                maxrank: Math.max(obj1.rank, obj2.rank),
+                rank1: obj1.rank,
+                rank2: obj2.rank
             });
         }
     }
@@ -118,7 +121,7 @@ function generate_results(results) {
                  <thead>\
                    <th scope="col">Rank</th>\
                    <th scope="col">Name</th>\
-                   <th scope="col">Combined playcount</th>\
+                   <th scope="col">Playcount</th>\
                    <th scope="col">Lowest rank</th>\
                  </thead>\
                  <tbody>';
@@ -126,8 +129,8 @@ function generate_results(results) {
             ret += '<tr>';
             ret += '<th scope="row">' + (i+1) + '</th>';
             ret += '<td>' + results[i].name + '</td>';
-            ret += '<td>' + results[i].playcount + '</td>';
-            ret += '<td>' + results[i].maxrank + '</td>';
+            ret += '<td>' + (results[i].playcount1 + results[i].playcount2) + '<p class="text-secondary">(' + results[i].playcount1 + '/' + results[i].playcount2 + ')</p></td>';
+            ret += '<td>' + results[i].maxrank + '<p class="text-secondary">(' + results[i].rank1 + '/' + results[i].rank2 + ')</p></td>';
             ret += '</tr>';
         }
         ret += '</tbody></table>';
